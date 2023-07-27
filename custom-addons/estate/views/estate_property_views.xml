@@ -31,6 +31,10 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form string="Estate Property">
+                <header>
+                    <button name="action_sold" type="object" string="Sold" attrs="{'invisible': [('status', 'in', ['sold', 'cancel'])]}"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('status', 'in', ['sold', 'cancel'])]}"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -48,18 +52,19 @@
                         <field name="garden_orientation"/>
                         <field name="active"/>
                         <field name="price_difference"/>
+                        <field name="status"/>
                         <field name="property_type_id"/>
                         <field name="property_tag_ids" widget="many2many_tags"/>
-                         <!-- <notebook>
-                            <page string="Property Offer"> -->
                         <field name="property_offer_ids">
                             <tree>
                                 <field name="offer_price"/>
+                                <button name="action_accepted" type="object" string="Accept" attrs="{'invisible': [('parent.status', 'in', ['sold', 'cancel'])]}"/>
+                                <button name="action_refused" type="object" string="Refuse" attrs="{'invisible': [('parent.status', 'in', ['sold', 'cancel'])]}"/>
                                 <field name="status"/>
+                                <!-- <field name="property_id.status"/> -->
+                                <!-- <field name="property_id.status"/> -->
                             </tree>
                         </field>
-                            <!-- </page>
-                        </notebook> -->
                     </group>
                 </sheet>
             </form>

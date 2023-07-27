@@ -15,3 +15,10 @@ class EstatePropertyOffer(models.Model):
         selection=[('pending', 'Pending'), ('refused', 'Refused'), ('accepted', 'Accepted')])
     property_id = fields.Many2one('estate.property', string='Estate Property')
 
+    def action_accepted(self):
+        self.status = "accepted"
+        self.property_id.status = "sold"
+        self.property_id.selling_price = self.offer_price
+    
+    def action_refused(self):
+        self.status = "refused"

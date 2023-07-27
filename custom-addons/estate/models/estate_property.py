@@ -29,20 +29,31 @@ class EstateProperty(models.Model):
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
     property_tag_ids = fields.Many2many("estate.property.tag", string="Property Tag")
     property_offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Property Offer')
-    price_difference = fields.Float(compute="_compute_price_difference", inverse = "_inverse_price_difference")
+    price_difference = fields.Float(compute="_compute_price_difference")
+    status = fields.Selection(
+        string='Status',
+        selection=[('pending', 'Pending'), ('cancel', 'Cancel'), ('sold', 'Sold')],
+        default="pending")
 
     @api.depends("expected_price", "selling_price")
     def _compute_price_difference(self):
         for record in self:
             record.price_difference = abs(record.expected_price - record.selling_price)
 
-
-    def _inverse_price_difference(self):
-        for record in self:
-            record.selling_price = record.expected_price + record.price_difference
-
     @api.onchange("garden")
     def _onchange_garden(self):
         if not self.garden:
             self.garden_area = 0
-        
+    
+
+    def action_sold(self):
+        if self.status == "pending":
+            self.status = "sold"
+        else:
+            return False
+
+    def action_cancel(self):
+        if self.status == "pending":
+            self.status = "cancel"
+        else:
+            return False
