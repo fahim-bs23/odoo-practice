@@ -47,6 +47,7 @@
                         <field name="garden_area"/>
                         <field name="garden_orientation"/>
                         <field name="active"/>
+                        <field name="price_difference"/>
                         <field name="property_type_id"/>
                         <field name="property_tag_ids" widget="many2many_tags"/>
                          <!-- <notebook>

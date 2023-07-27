@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class EstateProperty(models.Model):
@@ -29,3 +29,20 @@ class EstateProperty(models.Model):
     property_type_id = fields.Many2one("estate.property.type", string="Property Type")
     property_tag_ids = fields.Many2many("estate.property.tag", string="Property Tag")
     property_offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Property Offer')
+    price_difference = fields.Float(compute="_compute_price_difference", inverse = "_inverse_price_difference")
+
+    @api.depends("expected_price", "selling_price")
+    def _compute_price_difference(self):
+        for record in self:
+            record.price_difference = abs(record.expected_price - record.selling_price)
+
+
+    def _inverse_price_difference(self):
+        for record in self:
+            record.selling_price = record.expected_price + record.price_difference
+
+    @api.onchange("garden")
+    def _onchange_garden(self):
+        if not self.garden:
+            self.garden_area = 0
+        
