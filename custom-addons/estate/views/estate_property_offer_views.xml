@@ -1,6 +1,17 @@
 <?xml version="1.0"?>
 <odoo>
 
+    <record id="estate_property_offer_view_tree" model="ir.ui.view">
+        <field name="name">estate.property.offer.tree</field>
+        <field name="model">estate.property.offer</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" default_order="id desc">
+                <field name="offer_price"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="estate_property_offer_action" model="ir.actions.act_window">
         <field name="name">Estate Property Offer</field>
         <field name="res_model">estate.property.offer</field>

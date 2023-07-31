@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+
 
 
 class EstateProperty(models.Model):
@@ -66,4 +67,14 @@ class EstateProperty(models.Model):
                 raise ValidationError("Expected price cannot be negative.")
             if record.selling_price < 0:
                 raise ValidationError("Selling price cannot be negative.")
-            
+    
+    def action_view_property_offer(self):
+       return {
+            'name': _('Property Offer'),           
+            'type': 'ir.actions.act_window',
+            'res_model': 'estate.property.offer',
+            'view_mode': 'list,form',
+            'context': {},
+            'domain': [('id', 'in', self.property_offer_ids.ids)],
+            'target': 'self',
+        }
