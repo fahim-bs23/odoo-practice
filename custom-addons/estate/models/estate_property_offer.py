@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class EstatePropertyOffer(models.Model):
@@ -22,3 +23,9 @@ class EstatePropertyOffer(models.Model):
     
     def action_refused(self):
         self.status = "refused"
+
+    @api.constrains("offer_price")
+    def _check_positive_value(self):
+        for record in self:
+            if record.offer_price < 0:
+                raise ValidationError("Offer price cannot be negative.")

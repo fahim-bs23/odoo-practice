@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class EstateProperty(models.Model):
@@ -57,3 +58,12 @@ class EstateProperty(models.Model):
             self.status = "cancel"
         else:
             return False
+
+    @api.constrains("expected_price", "selling_price")
+    def _check_positive_value(self):
+        for record in self:
+            if record.expected_price < 0:
+                raise ValidationError("Expected price cannot be negative.")
+            if record.selling_price < 0:
+                raise ValidationError("Selling price cannot be negative.")
+            
