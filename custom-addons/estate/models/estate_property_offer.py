@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import api, fields, models, exceptions
 from odoo.exceptions import ValidationError
 
 
@@ -29,3 +29,11 @@ class EstatePropertyOffer(models.Model):
         for record in self:
             if record.offer_price < 0:
                 raise ValidationError("Offer price cannot be negative.")
+
+    @api.model
+    def create(self, vals):
+        if 'property_id' in vals and 'offer_price' in vals:
+            existing_offers = self.search([('property_id', '=', vals['property_id'])])
+            if existing_offers and any(offer.offer_price > vals['offer_price'] for offer in existing_offers):
+                raise exceptions.UserError("New offer amount must be higher than existing offers.")
+        return super(EstatePropertyOffer, self).create(vals)

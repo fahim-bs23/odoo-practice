@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, exceptions
 from odoo.exceptions import ValidationError
 
 
@@ -78,3 +78,11 @@ class EstateProperty(models.Model):
             'domain': [('id', 'in', self.property_offer_ids.ids)],
             'target': 'self',
         }
+    
+    def unlink(self):
+        for record in self:
+            if record.status == 'sold':
+                raise exceptions.UserError("You cannot delete this record because it's sold.")
+        return super(EstateProperty, self).unlink()
+
+    
