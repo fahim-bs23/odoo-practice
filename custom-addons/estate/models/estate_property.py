@@ -36,6 +36,7 @@ class EstateProperty(models.Model):
         string='Status',
         selection=[('pending', 'Pending'), ('cancel', 'Cancel'), ('sold', 'Sold')],
         default="pending")
+    user_id = fields.Many2one('res.users', string='Property User')
 
     @api.depends("expected_price", "selling_price")
     def _compute_price_difference(self):
