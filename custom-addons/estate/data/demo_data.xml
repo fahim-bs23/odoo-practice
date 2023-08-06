@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo data for Property Tag -->
+        <record id="demo_tag_3" model="estate.property.tag">
+            <field name="name">Tag 3</field>
+        </record>
+        <record id="demo_tag_4" model="estate.property.tag">
+            <field name="name">Tag 4</field>
+        </record>
+
+        
+        <!-- Demo data for Property Type -->
+        <record id="demo_type_castle" model="estate.property.type">
+            <field name="name">Castle</field>
+        </record>
+
+
+        <!-- Demo data for Estate Property -->
+        <record id="demo_property_a" model="estate.property">
+            <field name="name">Estate Property A</field>
+            <field name="description">Estate Property A desc</field>
+            <field name="postcode">1208</field>
+            <field name="expected_price">950000</field>
+            <field name="selling_price">950000</field>
+            <field name="bedrooms">3</field>
+            <field name="living_area">3</field>
+            <field name="facades">2</field>
+            <field name="garage">True</field>
+            <field name="garden">True</field>
+            <field name="garden_area">1200</field>
+            <field name="garden_orientation">east</field>
+            <field name="active">True</field>
+            <field name="property_type_id" ref="demo_type_castle"/>
+            <field name="property_tag_ids" eval="[(4, ref('demo_tag_3'))]"/>
+            <field name="status">pending</field>
+        </record>
+    </data>
+</odoo>
