@@ -4,7 +4,7 @@
 {
     'name': 'CRM',
     'version': '1.0',
-    'category': 'Sales/CRM',
+    'category': 'Real Estate/Brokerage',
     'sequence': 15,
     'summary': 'Track leads and close opportunities',
     'description': "",
@@ -19,6 +19,7 @@
         'views/user_property_views.xml',
         'views/estate_menus.xml',
         "data/demo_data.xml",
+        'security/security.xml',
     ],
     'demo': [
         
