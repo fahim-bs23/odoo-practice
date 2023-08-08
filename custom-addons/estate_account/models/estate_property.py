@@ -7,7 +7,7 @@ class EstateAccount(models.Model):
         res = super().action_sold()
 
         for record in self:
-            move = self.env["account.move"].create(
+            move = self.env["account.move"].sudo().create(
                 {
                     "partner_id": record.user_id,
                     "move_type": "out_invoice",

@@ -59,7 +59,7 @@
                 <field name="living_area"/>
                 <filter string="Garden" name="garden" domain="['|', ('garden', '=', True), ('garden', '=', False)]"/>
                 <separator/>
-                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]" groups="estate.estate_group_manager"/>
             </search>
         </field>
     </record>
