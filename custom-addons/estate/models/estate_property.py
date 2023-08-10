@@ -38,6 +38,19 @@ class EstateProperty(models.Model):
         default="pending")
     user_id = fields.Many2one('res.users', string='Property User')
 
+    # @api.model
+    def write(self, vals):
+        estate_property = self
+        property_offer_status = False
+        if 'status' in vals:
+            status = vals['status']
+            if status == 'sold':
+                if any(offer.status == "accepted" for offer in estate_property.property_offer_ids):
+                    property_offer_status = True
+                if not property_offer_status:
+                    raise exceptions.ValidationError("No accepted offer found.")
+        return super(EstateProperty, self).write(vals)
+
     @api.depends("expected_price", "selling_price")
     def _compute_price_difference(self):
         for record in self:

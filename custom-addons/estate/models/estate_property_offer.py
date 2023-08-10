@@ -35,5 +35,11 @@ class EstatePropertyOffer(models.Model):
         if 'property_id' in vals and 'offer_price' in vals:
             existing_offers = self.search([('property_id', '=', vals['property_id'])])
             if existing_offers and any(offer.offer_price > vals['offer_price'] for offer in existing_offers):
-                raise exceptions.UserError("New offer amount must be higher than existing offers.")
+                raise exceptions.ValidationError("New offer amount must be higher than existing offers.")
+            
+            property_id = vals['property_id']
+            property_record = self.env['estate.property'].browse(property_id)
+            if property_record and property_record.status == 'sold':
+                raise exceptions.ValidationError("This property has been already sold.")
+            
         return super(EstatePropertyOffer, self).create(vals)
