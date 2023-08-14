@@ -92,11 +92,10 @@ class EstateProperty(models.Model):
             'domain': [('id', 'in', self.property_offer_ids.ids)],
             'target': 'self',
         }
-    
+
     def unlink(self):
         for record in self:
             if record.status == 'sold':
                 raise exceptions.UserError("You cannot delete this record because it's sold.")
         return super(EstateProperty, self).unlink()
 
-    

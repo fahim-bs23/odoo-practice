@@ -9,10 +9,12 @@
     'summary': 'Track leads and close opportunities',
     'description': "",
     'website': 'https://www.odoo.com/page/crm',
-    'depends': [],
+    'depends': ['report_xlsx'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        "report/estate_property_offer_reports.xml",
+        "report/estate_property_offer_templates.xml",
         'views/estate_property_views.xml',
         'views/estate_property_type_views.xml',
         'views/estate_property_tag_views.xml',
